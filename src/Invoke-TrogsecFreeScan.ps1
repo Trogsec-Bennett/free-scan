@@ -278,6 +278,10 @@ Before you send
 ---------------
 $identifiers
 
+Maester's results files also record details of the computer that ran the
+scan: its computer name, your Windows user name and domain, the operating
+system, and the PowerShell modules loaded. -Redact does not remove these.
+
 Review the files, then send the whole folder to TrogSec using the upload link
 or encrypted email TrogSec gave you.
 

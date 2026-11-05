@@ -357,6 +357,13 @@ Describe 'Invoke-TrogsecFreeScan' {
         Get-Content (Join-Path $result.OutputFolder 'README.txt') -Raw | Should -Match 'user principal names'
     }
 
+    It 'tells the client that Maester records the computer name and Windows user name' {
+        $result = Invoke-TrogsecFreeScan -OutputPath $out -Redact
+        $readme = Get-Content (Join-Path $result.OutputFolder 'README.txt') -Raw
+        $readme | Should -Match 'computer name'
+        $readme | Should -Match 'Windows user name'
+    }
+
     It 'tells the client which files were written and warns about identifiers' {
         Invoke-TrogsecFreeScan -OutputPath $out | Out-Null
         Should -Invoke Write-Host -ParameterFilter { "$Object" -like '*scan-manifest.json*' }
