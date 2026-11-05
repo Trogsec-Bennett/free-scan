@@ -128,7 +128,11 @@ TrogSec-FreeScan-<tenant>-<yyyyMMdd-HHmmss>/
 ```
 
 The results include identifiers from your tenant, such as user principal
-names, policy names and group names. Review them before you send the folder.
+names, policy names and group names. Maester's results files also record the
+computer that ran the scan: its computer name, your Windows user name and
+domain, the operating system and the PowerShell modules loaded. `-Redact`
+replaces user identities from the tenant but not these. Review the files
+before you send the folder.
 
 ## Development
 
