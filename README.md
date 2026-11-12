@@ -70,6 +70,29 @@ Entra admin center under Enterprise applications, Microsoft Graph Command
 Line Tools, Permissions. The scan records the consent it found in
 `scan-manifest.json` to help.
 
+## What it reads, and what it never does
+
+The scan **reads** tenant configuration through Microsoft Graph, limited to
+the permissions above: directory objects (users, groups, roles,
+applications), authentication and Conditional Access policies, Privileged
+Identity Management settings, authentication method registrations, risk
+policy settings, access packages and sign-in activity dates.
+
+The scan **never**:
+
+- changes anything in your tenant. It holds no write permission, and it stops
+  before running any test if the sign-in carries one;
+- creates an app registration, service principal, user or role assignment
+  for TrogSec, or grants TrogSec any access;
+- reads mail, files, chats, calendars or SharePoint content;
+- sends telemetry or uploads its results anywhere. You send the output
+  folder yourself;
+- caches your sign-in token to disk. The session lives only in the
+  PowerShell window and is signed out at the end.
+
+Every one of these is in the one script file, which you can read before you
+run it, and most are checked by the tests in [`tests/`](tests/).
+
 ## Network use
 
 The scan connects only to Microsoft sign-in, Microsoft Graph, and the
@@ -105,7 +128,11 @@ TrogSec-FreeScan-<tenant>-<yyyyMMdd-HHmmss>/
 ```
 
 The results include identifiers from your tenant, such as user principal
-names, policy names and group names. Review them before you send the folder.
+names, policy names and group names. Maester's results files also record the
+computer that ran the scan: its computer name, your Windows user name and
+domain, the operating system and the PowerShell modules loaded. `-Redact`
+replaces user identities from the tenant but not these. Review the files
+before you send the folder.
 
 ## Development
 
@@ -116,4 +143,18 @@ mocked, so they need no tenant:
 Invoke-Pester ./tests
 ```
 
-Files are UTF-8 without BOM, with LF line endings.
+Files are UTF-8 without BOM, with LF line endings. See
+[CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+
+## Security
+
+Please report vulnerabilities privately, as described in
+[SECURITY.md](SECURITY.md), not in a public issue.
+
+## Licence
+
+The scan is open source under the [MIT licence](LICENSE). It is built on
+Maester, also MIT-licensed; see [NOTICE.md](NOTICE.md).
+
+This repository holds everything that runs in your tenant. The tooling TrogSec
+uses afterwards to turn the results into a report is not part of it.
